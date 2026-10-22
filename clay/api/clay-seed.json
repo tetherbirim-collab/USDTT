@@ -1,0 +1,221 @@
+{
+  "users": [
+    {
+      "id": "usr_demo",
+      "name": "Clay Üye",
+      "username": "demo",
+      "password": "",
+      "balance": 250000,
+      "usdMinor": 0,
+      "plan": "atolye",
+      "role": "uye",
+      "status": "acik",
+      "address": "",
+      "createdAt": "2026-09-28T09:00:00.000Z",
+      "referralCode": "CLAYDEMO",
+      "referredBy": "",
+      "sessions": [],
+      "commissions": [],
+      "commissionKurus": 0,
+      "roadmapVotes": {}
+    },
+    {
+      "id": "usr_admin",
+      "name": "CLAY Yönetici",
+      "username": "clayadmin",
+      "password": "",
+      "balance": 0,
+      "usdMinor": 0,
+      "plan": "kivilcim",
+      "role": "yonetici",
+      "status": "acik",
+      "address": "",
+      "createdAt": "2026-09-01T08:00:00.000Z",
+      "referralCode": "CLAYROOT",
+      "referredBy": "",
+      "sessions": [],
+      "commissions": [],
+      "commissionKurus": 0,
+      "roadmapVotes": {}
+    }
+  ],
+  "cards": [
+    {
+      "id": "crd_reklam",
+      "userId": "usr_demo",
+      "type": "facebook_ads",
+      "label": "Akış Kampanyası",
+      "limit": 500000,
+      "spent": 0,
+      "pan": "",
+      "bin": "441357",
+      "binLabel": "441357",
+      "expiry": "",
+      "cvv": "",
+      "holder": "CLAY UYE",
+      "status": "aktif",
+      "readyAt": null,
+      "period": 1,
+      "createdAt": "2026-09-28T09:04:00.000Z",
+      "expiresAt": "2026-10-28T09:04:00.000Z",
+      "pinned": false,
+      "autoRenew": false,
+      "hideCvv": false,
+      "burnerUsed": false,
+      "dailyLimitUsd": 5000,
+      "txLimitUsd": 2500,
+      "limitUsedUsd": 0,
+      "limitDay": ""
+    },
+    {
+      "id": "crd_ultima",
+      "userId": "usr_demo",
+      "type": "ultima",
+      "label": "Ultima",
+      "limit": 500000,
+      "spent": 0,
+      "pan": "",
+      "bin": "474613",
+      "binLabel": "474613",
+      "expiry": "",
+      "cvv": "",
+      "holder": "CLAY UYE",
+      "status": "aktif",
+      "readyAt": null,
+      "period": 1,
+      "createdAt": "2026-10-01T09:10:00.000Z",
+      "expiresAt": "2026-12-01T09:10:00.000Z",
+      "pinned": false,
+      "autoRenew": false,
+      "hideCvv": false,
+      "burnerUsed": false,
+      "dailyLimitUsd": 5000,
+      "txLimitUsd": 2500,
+      "limitUsedUsd": 0,
+      "limitDay": ""
+    },
+    {
+      "id": "crd_burner",
+      "userId": "usr_demo",
+      "type": "burner",
+      "label": "Tek Çekim",
+      "limit": 200000,
+      "spent": 0,
+      "pan": "",
+      "bin": "474613",
+      "binLabel": "474613",
+      "expiry": "",
+      "cvv": "",
+      "holder": "CLAY UYE",
+      "status": "aktif",
+      "readyAt": null,
+      "period": 1,
+      "createdAt": "2026-10-10T09:10:00.000Z",
+      "expiresAt": "2026-11-10T09:10:00.000Z",
+      "pinned": false,
+      "autoRenew": false,
+      "hideCvv": false,
+      "burnerUsed": false,
+      "dailyLimitUsd": 5000,
+      "txLimitUsd": 2500,
+      "limitUsedUsd": 0,
+      "limitDay": ""
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx_seed_01",
+      "userId": "usr_demo",
+      "cardId": "crd_reklam",
+      "kind": "basim",
+      "title": "Basım · Akış Kampanyası",
+      "note": "Basım ücreti",
+      "amount": -1514,
+      "usdMinor": -1514,
+      "status": "tamamlandi",
+      "createdAt": "2026-09-28T09:05:00.000Z",
+      "ref": null
+    }
+  ],
+  "notices": [],
+  "tickets": [],
+  "bins": [
+    {
+      "id": "bin_441357_facebook_ads",
+      "type": "facebook_ads",
+      "label": "441357",
+      "digits": "441357"
+    },
+    {
+      "id": "bin_474613_ultima",
+      "type": "ultima",
+      "label": "474613",
+      "digits": "474613"
+    },
+    {
+      "id": "bin_474613_burner",
+      "type": "burner",
+      "label": "474613",
+      "digits": "474613"
+    }
+  ],
+  "orders": [],
+  "settings": {
+    "issueFeeKurus": 1514,
+    "loadFeePercent": 4,
+    "transferFeePercent": 13,
+    "plans": {
+      "kivilcim": {
+        "name": "Clay Duo",
+        "priceUsdMinor": 4900,
+        "cardLimit": 2,
+        "blurb": "Bronze. Ayda 49 USD. En fazla 2 kart. Basım 750 TL."
+      },
+      "atolye": {
+        "name": "Clay Multi",
+        "priceUsdMinor": 14900,
+        "cardLimit": 8,
+        "blurb": "Silver. Ayda 149 USD. En fazla 8 kart. Basım 750 TL."
+      },
+      "galeri": {
+        "name": "Clay Prime",
+        "priceUsdMinor": 39900,
+        "cardLimit": 25,
+        "blurb": "Gold. Ayda 399 USD. En fazla 25 kart. Basım 750 TL."
+      }
+    },
+    "telegram": "",
+    "announcement": {
+      "title": "",
+      "body": "",
+      "on": false
+    },
+    "copy": {}
+  },
+  "nextSerial": 100000005,
+  "coupons": [
+    {
+      "code": "CLAY10",
+      "percent": 10,
+      "active": true,
+      "createdAt": "2026-10-01T00:00:00.000Z"
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "road_pin",
+      "title": "Kart sabitleme",
+      "votes": 3
+    },
+    {
+      "id": "road_pdf",
+      "title": "PDF fiş",
+      "votes": 2
+    },
+    {
+      "id": "road_lang",
+      "title": "Üç dil",
+      "votes": 4
+    }
+  ]
+}

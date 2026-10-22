@@ -1,0 +1,23 @@
+.glass,
+.desk-root .glass,
+.auth-card,
+.auth-field,
+.pkg-card,
+.fee-sheet,
+.seed-block,
+.credential-card,
+.btn-gold,
+.btn-ghost,
+.auth-primary,
+.auth-outline,
+.nav-on,
+.account-sheet,
+.mission-card,
+.mission-card-quiet,
+.order-slip,
+.announce-bar,
+.field,
+.lang-menu,
+.plan-menu {
+  backdrop-filter: blur(18px) saturate(1.65);
+}
