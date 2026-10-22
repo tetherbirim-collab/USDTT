@@ -1,0 +1,264 @@
+/* Admin theme — loaded only on /clayadm!nxx */
+/* Light admin desk — distinct from member dark-red site */
+body.clay-desk {
+  background: #f3f5f8 !important;
+  color: #1c2430 !important;
+}
+body.clay-desk .desk-bg {
+  display: none !important;
+}
+body.clay-desk .mx-auto.min-h-screen {
+  max-width: 1180px;
+  overflow: visible;
+}
+body.clay-desk header.glass {
+  background: #fff !important;
+  color: #1c2430 !important;
+  border: 1px solid #d5dde8 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 28px rgba(28, 36, 48, 0.06) !important;
+  position: sticky;
+  top: 8px;
+  z-index: 20;
+  overflow: visible;
+}
+body.clay-desk header.glass :is(a, span, p, button, strong) {
+  color: inherit;
+}
+body.clay-desk header .text-gold {
+  color: #2f5ea8 !important;
+}
+body.clay-desk header .btn-ghost {
+  color: #1c2430 !important;
+  background: #eef2f7 !important;
+  border: 1px solid #cfd8e4 !important;
+}
+body.clay-desk .glass:not(header),
+body.clay-desk .order-slip {
+  background: #fff !important;
+  color: #1c2430 !important;
+  border: 1px solid #dce3ec !important;
+  box-shadow: 0 6px 18px rgba(28, 36, 48, 0.04) !important;
+}
+body.clay-desk .order-slip-owner,
+body.clay-desk .order-slip-phrase {
+  color: #5b6778 !important;
+}
+body.clay-desk .order-slip-kicker,
+body.clay-desk .order-slip-wait {
+  color: #2f5ea8 !important;
+}
+body.clay-desk .border-white\/10 {
+  border-color: #dce3ec !important;
+}
+body.clay-desk :is(.text-white, .text-white\/45, .text-white\/50, .text-white\/55, .text-white\/60, .text-white\/65, .text-white\/70, .text-white\/75, .text-white\/80) {
+  color: #3d4a5c !important;
+}
+body.clay-desk header :is(.text-white, .text-white\/70, .text-white\/80, .text-white\/65) {
+  color: #1c2430 !important;
+}
+body.clay-desk .text-gold {
+  color: #2f5ea8 !important;
+}
+body.clay-desk header .text-gold {
+  color: #2f5ea8 !important;
+}
+body.clay-desk nav.clay-admin-nav,
+body.clay-desk nav {
+  display: grid;
+  gap: 10px;
+}
+body.clay-desk nav .flex.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+body.clay-desk .clay-admin-kicker {
+  flex: 0 0 100%;
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b7789 !important;
+}
+body.clay-desk nav a,
+body.clay-desk .nav-pill {
+  background: #eef2f7 !important;
+  color: #1c2430 !important;
+  border: 1px solid #d5dde8 !important;
+  border-radius: 10px !important;
+  padding: 6px 10px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+body.clay-desk nav a.nav-on,
+body.clay-desk a.nav-on,
+body.clay-desk .nav-pill.nav-on {
+  background: #2f5ea8 !important;
+  color: #fff !important;
+  border-color: #274e8d !important;
+}
+body.clay-desk .glass:not(header) .btn-ghost {
+  color: #1c2430 !important;
+  background: #eef2f7 !important;
+  border: 1px solid #cfd8e4 !important;
+}
+body.clay-desk .btn-gold {
+  color: #fff !important;
+  background: #2f5ea8 !important;
+  border-color: #274e8d !important;
+}
+body.clay-desk input,
+body.clay-desk select,
+body.clay-desk textarea,
+body.clay-desk .field {
+  background: #fff !important;
+  color: #1c2430 !important;
+  border: 1px solid #cfd8e4 !important;
+  border-radius: 10px !important;
+}
+body.clay-desk table {
+  width: 100%;
+  border-collapse: collapse;
+}
+body.clay-desk th,
+body.clay-desk td {
+  border-bottom: 1px solid #e4eaf1;
+  padding: 8px 10px;
+  text-align: left;
+  color: #1c2430;
+}
+body.clay-desk .clay-desk-live {
+  margin: 16px 0;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  overflow: visible;
+}
+body.clay-desk .clay-desk-live h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+body.clay-desk .clay-desk-live-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+body.clay-desk .clay-desk-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #dce3ec;
+  background: #fff;
+  color: #1c2430;
+  border-radius: 14px;
+  padding: 8px 12px 8px 8px;
+  cursor: pointer;
+  text-align: left;
+  min-width: 220px;
+}
+body.clay-desk .clay-desk-person.is-on {
+  background: #2f5ea8;
+  color: #fff;
+  border-color: #2f5ea8;
+}
+body.clay-desk .clay-desk-live-log {
+  display: grid;
+  gap: 8px;
+  max-height: 360px;
+  overflow: auto;
+  background: #f6f8fb;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+body.clay-desk .clay-desk-live-log p {
+  margin: 0;
+}
+body.clay-desk .clay-desk-live-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+body.clay-desk .clay-desk-live-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+}
+body.clay-desk .clay-desk-live-form .btn {
+  flex: 0 0 auto;
+}
+
+.clay-desk-auto-acts {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+}
+.clay-desk-auto li .clay-desk-auto-acts button {
+  grid-column: auto;
+  grid-row: auto;
+  white-space: nowrap;
+  min-height: 2.2rem;
+}
+.clay-desk-auto li.is-edit { box-shadow: inset 0 0 0 2px #2f5ea8; }
+body.clay-desk a:hover, body.clay-desk button:hover {
+  transform: none !important;
+  animation: none !important;
+}
+body.clay-desk { overflow-anchor: none; }
+.clay-admin-drawer { display: none; }
+@media (max-width: 860px) {
+  .clay-admin-drawer { display: none !important; }
+  body.clay-desk header nav .flex.flex-wrap { display: none !important; }
+  body.clay-desk .clay-live { display: none !important; }
+  body.clay-admin-open header nav .flex.flex-wrap { display: none !important; }
+  body.clay-desk header { position: relative !important; overflow: visible !important; }
+}
+body.clay-desk .clay-uye-native-hid,
+body.clay-desk .clay-uye-detail ~ #kartlar,
+body.clay-desk .clay-uye-detail ~ #bakiye {
+  display: none !important;
+}
+.clay-announce-bar {
+  margin: 0;
+  padding: 10px 16px;
+  background: #2f5ea8;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Launchpad Metinleri (clay-lp-admin.js) */
+.clay-lp-admin { display: grid; gap: 16px; margin-top: 20px; padding: 22px; border-radius: 28px; }
+.clay-lp-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.clay-lp-kicker { font-size: 11px; font-weight: 700; letter-spacing: .32em; color: #e5b842; }
+.clay-lp-head h2 { margin-top: 4px; font-size: 28px; font-weight: 700; }
+.clay-lp-lede { margin-top: 6px; max-width: 46rem; font-size: 14px; opacity: .72; }
+.clay-lp-tabs { display: inline-flex; gap: 6px; padding: 4px; border-radius: 999px; border: 1px solid rgba(229, 184, 66, .3); justify-self: start; }
+.clay-lp-tab { padding: 7px 18px; border-radius: 999px; font-size: 13px; font-weight: 700; opacity: .75; }
+.clay-lp-tab.is-on { opacity: 1; color: #15110a; background: linear-gradient(180deg, #f8dd85, #e5b842); }
+.clay-lp-note { padding: 10px 14px; border-radius: 14px; font-size: 14px; }
+.clay-lp-form { display: grid; gap: 10px; }
+.clay-lp-group { border: 1px solid rgba(255, 255, 255, .1); border-radius: 18px; background: rgba(255, 255, 255, .02); }
+.clay-lp-group > summary { display: flex; align-items: center; gap: 10px; padding: 13px 16px; cursor: pointer; font-weight: 700; list-style: none; }
+.clay-lp-group > summary::-webkit-details-marker { display: none; }
+.clay-lp-group > summary::after { content: "+"; margin-left: auto; color: #e5b842; font-size: 18px; line-height: 1; }
+.clay-lp-group[open] > summary::after { content: "−"; }
+.clay-lp-count { min-width: 22px; padding: 1px 7px; border-radius: 999px; font-size: 11px; text-align: center; color: #e5b842; border: 1px solid rgba(229, 184, 66, .4); }
+.clay-lp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 4px 16px 16px; }
+.clay-lp-field { display: grid; gap: 5px; font-size: 13px; }
+.clay-lp-field.is-wide { grid-column: 1 / -1; }
+.clay-lp-label { display: flex; align-items: center; gap: 8px; opacity: .85; }
+.clay-lp-own { font-style: normal; font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 999px; color: #34d399; border: 1px solid rgba(52, 211, 153, .45); }
+.clay-lp-field textarea { resize: vertical; min-height: 64px; }
+.clay-lp-acts { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; }
+@media (max-width: 640px) {
+  .clay-lp-admin { padding: 16px; border-radius: 22px; }
+  .clay-lp-grid { grid-template-columns: 1fr; padding: 4px 12px 12px; }
+}
