@@ -68,10 +68,10 @@ $json = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HE
 <link rel="preload" href="/fonts/cormorant-garamond-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/clay-lp-card.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="/clay-lp.css?v=21">
-<link rel="stylesheet" href="/clay-v14.css?v=30">
+<link rel="stylesheet" href="/clay-v14.css?v=31">
 <script>try{var L=localStorage.getItem("clay-lang");if(L==="ru"){L="en";localStorage.setItem("clay-lang",L)}if(localStorage.getItem("clay-lang-picked")!=="1"||(L!=="tr"&&L!=="en"))localStorage.setItem("clay-lang",<?= json_encode($lang) ?>)}catch(e){}</script>
 <script src="/clay-lp.js?v=21" defer></script>
-<script src="/clay-v14.js?v=30" defer></script>
+<script src="/clay-v14.js?v=31" defer></script>
 <script src="/clay-gecis.js?v=23" defer></script>
 </head>
 <body class="lp-body">

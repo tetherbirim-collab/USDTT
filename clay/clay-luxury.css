@@ -1567,16 +1567,27 @@ article.plan-offer-now .plan-offer-cta button::before {
 }
 .clay-ask-back {
   z-index: 140 !important;
-  background: rgba(13, 13, 14, 0.72) !important;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
 }
 .clay-ask-back .clay-ask {
-  background: rgba(18, 19, 22, 0.92) !important;
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(229, 184, 66, 0.3) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+  font-family: "Clay Inter", Inter, ui-sans-serif, system-ui, sans-serif;
+}
+html body.clay-lux a.btn-gold,
+html body.clay-lux button.btn-gold,
+html body.clay-lux .auth-primary {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+html body.clay-lux a.btn-gold:hover,
+html body.clay-lux button.btn-gold:hover,
+html body.clay-lux .auth-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 28px rgba(229, 184, 66, 0.4) !important;
+}
+html body.clay-lux a.btn-gold:active,
+html body.clay-lux button.btn-gold:active {
+  transform: translateY(0) scale(0.98);
 }
 .clay-lux-quota {
   width: min(420px, calc(100vw - 32px));
@@ -1605,7 +1616,15 @@ article.plan-offer-now .plan-offer-cta button::before {
   min-height: 110px;
   margin: 0 auto 8px;
   border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #e5b842;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
   background: radial-gradient(circle at 50% 40%, rgba(229,184,66,.35), rgba(18,19,22,.2) 70%);
+  box-shadow: 0 0 0 1px rgba(229,184,66,.28), 0 12px 30px rgba(229,184,66,.16);
+  animation: clay-ask-pulse 2.4s ease-in-out infinite;
 }
 .clay-lux-quota-title {
   margin: 0;
@@ -2315,17 +2334,21 @@ body.clay-cards article[id^="crd_"]:not(.is-open) .vcard-pan .clay-copy {
   font-size: 12px;
   opacity: .72;
 }
-.clay-core-toast {
+.clay-core-toast,
+html body.clay-lux .clay-toast.is-on {
   position: fixed;
   right: 18px;
   bottom: 18px;
   z-index: 80;
   max-width: 360px;
-  padding: 12px 16px;
-  border-radius: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
   font-size: 14px;
+  border: 1px solid rgba(229, 184, 66, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
 }
-.clay-core-toast.is-ok { background: #1d3d2c; color: #e7ffe9; }
-.clay-core-toast.is-bad { background: #4a2418; color: #ffe7d6; }
+.clay-core-toast.is-ok { background: rgba(29, 61, 44, 0.94); color: #e7ffe9; }
+.clay-core-toast.is-bad { background: rgba(74, 36, 24, 0.94); color: #ffe7d6; }
 button.is-busy { opacity: .7; pointer-events: none; }
 .lang-option[hidden], .clay-ru[hidden] { display: none !important; }

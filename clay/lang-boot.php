@@ -145,15 +145,15 @@ function clay_prepare($html)
             . 'window.addEventListener("error",function(e){if(/Minified React error #(418|423|425);/.test(String(e&&e.message||""))){e.preventDefault()}},true)})();</script>';
         $html = preg_replace('/<head\b[^>]*>/i', '$0' . $hydrate, $html, 1);
     }
-    $html = preg_replace('#/clay-v14\.js(\?v=\d+)?#', '/clay-v14.js?v=30', $html);
-    $html = preg_replace('#/clay-v14\.css(\?v=\d+)?#', '/clay-v14.css?v=30', $html);
+    $html = preg_replace('#/clay-v14\.js(\?v=\d+)?#', '/clay-v14.js?v=31', $html);
+    $html = preg_replace('#/clay-v14\.css(\?v=\d+)?#', '/clay-v14.css?v=31', $html);
     if (strpos($html, "/clay-v14.js") === false && !preg_match('/src=["\']\/clay-v14\.js["\']/', $html)) {
         $admin = (strpos((string) ($_SERVER["REQUEST_URI"] ?? ""), "clayadm") !== false);
-        $head = '<link rel="stylesheet" href="/clay-v14.css?v=30">';
+        $head = '<link rel="stylesheet" href="/clay-v14.css?v=31">';
         if ($admin) {
             $head .= '<link rel="stylesheet" href="/clay-admin.css">';
         }
-        $head .= '<script src="/clay-v14.js?v=30"></script></head>';
+        $head .= '<script src="/clay-v14.js?v=31"></script></head>';
         $html = preg_replace('/<\/head>/i', $head, $html, 1);
     }
     if (strpos((string) ($_SERVER["REQUEST_URI"] ?? ""), "clayadm") !== false && strpos($html, "/clay-admin.css") === false) {
@@ -162,11 +162,12 @@ function clay_prepare($html)
     if (strpos((string) ($_SERVER["REQUEST_URI"] ?? ""), "clayadm") !== false && strpos($html, "/clay-lp-admin.js") === false) {
         $html = preg_replace('/<\/head>/i', '<script src="/clay-lp-admin.js" defer></script></head>', $html, 1);
     }
-    $html = str_replace("/clay-luxury.css?v=28", "/clay-luxury.css?v=30", $html);
-    $html = str_replace("/clay-luxury.css?v=29", "/clay-luxury.css?v=30", $html);
+    $html = str_replace("/clay-luxury.css?v=28", "/clay-luxury.css?v=31", $html);
+    $html = str_replace("/clay-luxury.css?v=29", "/clay-luxury.css?v=31", $html);
+    $html = str_replace("/clay-luxury.css?v=30", "/clay-luxury.css?v=31", $html);
     $html = str_replace("/clay-luxury.js?v=28", "/clay-luxury.js?v=29", $html);
     if (strpos($html, "/clay-luxury.css") === false) {
-        $html = preg_replace('/<\/head>/i', '<link rel="stylesheet" href="/clay-luxury.css?v=30"></head>', $html, 1);
+        $html = preg_replace('/<\/head>/i', '<link rel="stylesheet" href="/clay-luxury.css?v=31"></head>', $html, 1);
     }
     if (strpos($html, "/clay-luxury.js") === false) {
         $html = preg_replace('/<\/head>/i', '<script src="/clay-luxury.js?v=29"></script></head>', $html, 1);
