@@ -89,15 +89,15 @@ body.clay-issue {
   padding-bottom: 96px;
 }
 
-/* Shared confirm */
+/* Shared confirm / blocking alert */
 .clay-ask-back {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: 140;
   display: grid;
   place-items: end center;
   padding: 12px;
-  background: rgba(18, 10, 14, 0.55);
+  background: rgba(18, 10, 14, 0.62);
 }
 .clay-ask {
   width: min(440px, 100%);
@@ -109,6 +109,22 @@ body.clay-issue {
   background: #16121c;
   color: #fff8ee;
   margin-bottom: 8px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+.clay-ask-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #f0c98a;
+}
+.clay-ask-back.is-bad .clay-ask {
+  border-color: rgba(255, 170, 120, 0.55);
+}
+.clay-ask-back.is-ok .clay-ask-kicker { color: #9ee0b4; }
+html.clay-dialog-on p.banner-bad[role="status"]:not(.clay-core-issue-wait):not(.clay-issue-short):not(.clay-login-note):not(.clay-reg-note),
+html.clay-dialog-on p.banner-ok[role="status"] {
+  display: none !important;
 }
 @media (min-width: 800px) {
   .clay-ask-back { place-items: center; }

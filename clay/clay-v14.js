@@ -8,7 +8,16 @@
     (document.head || document.documentElement).appendChild(ops);
   }
 
-  var MONEY = {
+  function isEn() {
+    try {
+      var L = localStorage.getItem("clay-lang") || document.documentElement.lang || "tr";
+      return L === "en";
+    } catch (e) {
+      return document.documentElement.lang === "en";
+    }
+  }
+  function tx(tr, english) { return isEn() ? english : tr; }
+  var MONEY_TR = {
     issue: "Kart basımı",
     fund: "Karta yükleme",
     plan: "Plan alma",
@@ -34,6 +43,33 @@
     "admin-cek": "Çekim",
     "admin-close": "Kart kapatma"
   };
+  var MONEY_EN = {
+    issue: "Card issue",
+    fund: "Card top-up",
+    plan: "Buy plan",
+    "plan-iptal": "Cancel plan",
+    cek: "Withdrawal",
+    transfer: "Transfer",
+    close: "Close card",
+    cancel: "Cancel order",
+    spend: "Spend",
+    harca: "Spend",
+    refund: "Refund",
+    renew: "Renew",
+    activate: "Activate card",
+    "ana-hesap": "Move to wallet",
+    purge: "Delete card",
+    "kupon-uygula": "Coupon",
+    "kart-uzat": "Extend",
+    "admin-balance": "Balance adjust",
+    "admin-set-balance": "Set balance",
+    "admin-topup": "Balance top-up",
+    "admin-issue": "Card issue",
+    "admin-transfer": "Transfer",
+    "admin-cek": "Withdrawal",
+    "admin-close": "Close card"
+  };
+  var MONEY = MONEY_TR;
   // Card close forms carry their own confirmation step.
   var SELF_CONFIRMED = { close: true, "admin-close": true };
   var liveThread = "";
@@ -96,43 +132,156 @@
     return { kivilcim: "Clay Duo", atolye: "Clay Multi", galeri: "Clay Prime" }[id] || "Plan";
   }
   function moneyText(action, data) {
-    var label = MONEY[action] || "Bu işlem";
+    var pack = isEn() ? MONEY_EN : MONEY_TR;
+    var label = pack[action] || tx("Bu işlem", "This action");
     var amount = data && (data.tutar || data.bakiye || data.limit || data.amount || data.plan || "");
     if (action === "plan" && data && data.plan) amount = planLabel(data.plan);
     if (action === "ana-hesap") {
       return amount
-        ? "Ana hesaba " + amount + " aktarılacak. %" + transferPct() + " komisyon kesilir. Onaylıyor musun?"
-        : "Ana hesaba aktar. Onaylıyor musun?";
+        ? tx(
+            "Ana hesaba " + amount + " aktarılacak. %" + transferPct() + " komisyon kesilir. Onaylıyor musun?",
+            amount + " will move to the wallet. " + transferPct() + "% fee is taken. Do you confirm?"
+          )
+        : tx("Ana hesaba aktar. Onaylıyor musun?", "Move to the wallet. Do you confirm?");
     }
-    if (amount) return label + " · " + amount + ". Onaylıyor musun?";
-    return label + ". Onaylıyor musun?";
+    if (amount) return label + " · " + amount + ". " + tx("Onaylıyor musun?", "Do you confirm?");
+    return label + ". " + tx("Onaylıyor musun?", "Do you confirm?");
   }
 
-  function openAsk(text) {
+  function hideQueryBanners() {
+    document.documentElement.classList.add("clay-dialog-on");
+    document.querySelectorAll("p.banner-bad[role=status], p.banner-ok[role=status]").forEach(function (el) {
+      if (el.classList.contains("clay-core-issue-wait") || el.classList.contains("clay-issue-short") || el.classList.contains("clay-login-note") || el.classList.contains("clay-reg-note")) return;
+      el.hidden = true;
+      el.style.setProperty("display", "none", "important");
+    });
+    document.querySelectorAll(".clay-core-toast, .clay-toast.is-on").forEach(function (el) {
+      el.remove();
+    });
+  }
+
+  function openDialog(opts) {
+    opts = opts || {};
     return new Promise(function (resolve) {
+      document.querySelectorAll(".clay-ask-back").forEach(function (old) { old.remove(); });
+      hideQueryBanners();
       var back = document.createElement("div");
-      back.className = "clay-ask-back";
-      back.innerHTML = '<div class="clay-ask" role="dialog" aria-modal="true" data-clay-ask="1"><p class="clay-confirm-q"></p><div class="clay-confirm-actions"><button type="button" class="btn btn-gold" data-ask="yes">Onayla</button><button type="button" class="btn btn-ghost" data-ask="no">Vazgeç</button></div></div>';
-      back.querySelector(".clay-confirm-q").textContent = text;
+      back.className = "clay-ask-back" + (opts.kind === "alert" ? " is-alert" : " is-confirm") + (opts.kind === "alert" ? (opts.ok ? " is-ok" : " is-bad") : "");
+      var actions = "";
+      if (opts.kind === "alert") {
+        if (opts.ctaHref && opts.ctaLabel) {
+          actions += '<a class="btn btn-gold" data-ask="cta" href="' + esc(opts.ctaHref) + '">' + esc(opts.ctaLabel) + "</a>";
+        }
+        actions += '<button type="button" class="btn ' + (opts.ctaHref ? "btn-ghost" : "btn-gold") + '" data-ask="ok">' + esc(opts.okLabel || tx("Tamam", "OK")) + "</button>";
+      } else {
+        actions += '<button type="button" class="btn btn-gold" data-ask="yes">' + esc(opts.yesLabel || tx("Onayla", "Confirm")) + "</button>";
+        actions += '<button type="button" class="btn btn-ghost" data-ask="no">' + esc(opts.noLabel || tx("Vazgeç", "Cancel")) + "</button>";
+      }
+      back.innerHTML = '<div class="clay-ask" role="alertdialog" aria-modal="true" data-clay-ask="1">' +
+        (opts.kicker ? '<p class="clay-ask-kicker"></p>' : "") +
+        '<p class="clay-confirm-q"></p><div class="clay-confirm-actions">' + actions + "</div></div>";
+      if (opts.kicker) back.querySelector(".clay-ask-kicker").textContent = opts.kicker;
+      back.querySelector(".clay-confirm-q").textContent = opts.text || "";
       document.body.appendChild(back);
-      var yes = back.querySelector("[data-ask=yes]");
-      var no = back.querySelector("[data-ask=no]");
       function finish(ok) {
         if (back.parentNode) back.remove();
         resolve(!!ok);
       }
-      yes.addEventListener("click", function () { finish(true); });
-      no.addEventListener("click", function () { finish(false); });
-      back.addEventListener("click", function (event) { if (event.target === back) finish(false); });
-      yes.focus();
+      var yes = back.querySelector("[data-ask=yes]");
+      var no = back.querySelector("[data-ask=no]");
+      var okBtn = back.querySelector("[data-ask=ok]");
+      if (yes) yes.addEventListener("click", function () { finish(true); });
+      if (no) no.addEventListener("click", function () { finish(false); });
+      if (okBtn) okBtn.addEventListener("click", function () { finish(true); });
+      back.addEventListener("click", function (event) {
+        if (event.target === back) finish(opts.kind === "alert");
+      });
+      (yes || okBtn || no).focus();
     });
+  }
+  function openAsk(text) {
+    return openDialog({ kind: "confirm", text: text });
   }
   function askConfirm(text) {
     var next = askChain.then(function () { return openAsk(text); });
     askChain = next.then(function () { return null; }, function () { return null; });
     return next;
   }
+  function explainNotice(code, message) {
+    var c = String(code || "");
+    var extra = String(message || "").trim();
+    var fail = c.indexOf("e-") === 0;
+    var item = { kind: "alert", ok: !fail, text: extra, kicker: fail ? tx("UYARI", "NOTICE") : tx("TAMAM", "DONE") };
+    if (c === "e-bakiye") {
+      item.kicker = tx("BAKİYE", "BALANCE");
+      item.text = extra || tx("Bakiye yetersiz. İşlem uygulanmadı.", "Insufficient balance. The action was not applied.");
+      item.ctaHref = "/panel/yukle/";
+      item.ctaLabel = tx("Bakiye yükle", "Top up balance");
+    } else if (c === "e-paket" || c === "e-plan") {
+      item.kicker = tx("KART KOTASI", "CARD QUOTA");
+      item.text = extra || tx("Başka kart için paket gerekir. Paketsiz hesapta 1 kart vardır.", "A plan is required for another card. Free accounts include 1 card.");
+      item.ctaHref = "/panel/yukselt/";
+      item.ctaLabel = tx("Paket satın al", "Buy a plan");
+    } else if (c === "e-kripicard-anahtar") {
+      item.text = extra || tx("Kart sağlayıcı anahtarı yok. Numara üretilmedi, bakiye düşmedi.", "Provider key is missing. No number was issued and the wallet was not charged.");
+    } else if (c === "e-kripicard-tutar") {
+      item.text = extra || tx("Karta yazılan tutar en az 10 USD olmalı.", "Amount on the card must be at least 10 USD.");
+    } else if (c.indexOf("e-kripicard") === 0) {
+      item.text = extra || tx("Kart sağlayıcı isteği reddetti. Kart oluşmadı.", "The card provider rejected the request. No card was issued.");
+    } else if (c === "e-tutar") {
+      item.text = extra || tx("Tutar geçersiz.", "The amount is invalid.");
+    } else if (c === "e-durum") {
+      item.text = extra || tx("Kart bu işlem için uygun değil.", "This card cannot take that action.");
+    } else if (c === "e-limit") {
+      item.text = extra || tx("Limit aşıldı.", "The limit was exceeded.");
+    } else if (c === "e-bin" || c === "e-hesap") {
+      item.text = extra || tx("Kart bilgisi eksik veya hatalı.", "Card details are missing or invalid.");
+    } else if (c === "siparis" || c === "basildi") {
+      item.ok = true;
+      item.text = extra || tx("Kart siparişi alındı.", "The card order was received.");
+    } else if (c === "transfer" || c === "ana-hesap") {
+      item.ok = true;
+      item.text = extra || tx("Aktarım tamamlandı.", "The transfer completed.");
+    } else if (!item.text) {
+      item.text = fail
+        ? tx("İşlem uygulanmadı (" + c + ").", "The action was not applied (" + c + ").")
+        : tx("İşlem tamamlandı.", "The action completed.");
+    }
+    return item;
+  }
+  function showAlert(code, message) {
+    if (code === "e-onay") return Promise.resolve(true);
+    if (code === "e-paket" || code === "e-plan") {
+      showQuotaNotice();
+      return Promise.resolve(true);
+    }
+    var spec = explainNotice(code, message);
+    var next = askChain.then(function () { return openDialog(spec); });
+    askChain = next.then(function () { return null; }, function () { return null; });
+    return next;
+  }
   window.__clayAsk = askConfirm;
+  window.__clayAlert = showAlert;
+  window.__clayNoticeQuery = function () {
+    var q = "";
+    var extra = "";
+    try {
+      var sp = new URLSearchParams(location.search);
+      q = sp.get("bildirim") || "";
+      extra = sp.get("metin") || "";
+    } catch (e) {}
+    if (!q) return false;
+    if (q === "hosgeldin" || q === "sifre" || q === "kapandi" || q === "transfer" || q === "ana-hesap") return false;
+    hideQueryBanners();
+    if (window.__clayNoticeShown === q + location.pathname) return true;
+    window.__clayNoticeShown = q + location.pathname;
+    if (q === "e-paket" || q === "e-plan") {
+      showQuotaNotice();
+      return true;
+    }
+    showAlert(q, extra);
+    return true;
+  };
 
   function readUrl(input) {
     if (typeof input === "string") return input;
@@ -160,7 +309,7 @@
     }
     if (SELF_CONFIRMED[data.action]) return null;
     if (url.indexOf("/api/ledger.php") !== -1 && MONEY[data.action]) return { kind: "ledger", action: data.action, text: moneyText(data.action, data) };
-    if (url.indexOf("/api/heleket.php") !== -1 && data.action === "create") return { kind: "heleket", action: "create", text: "Bakiye yükleme" + (data.amount ? " · " + data.amount + " USD" : "") + ". Onaylıyor musun?" };
+    if (url.indexOf("/api/heleket.php") !== -1 && data.action === "create") return { kind: "heleket", action: "create", text: tx("Bakiye yükleme", "Balance top-up") + (data.amount ? " · " + data.amount + " USD" : "") + ". " + tx("Onaylıyor musun?", "Do you confirm?") };
     return null;
   }
   function rememberLedger(response) {
@@ -258,7 +407,6 @@
                 showQuotaNotice();
                 pulseNow();
               } else if (body && String(body.code || "").indexOf("e-") === 0) {
-                toast(body.message || "Kart oluşmadı. Bakiye iade edildiyse bildirimde görünür.", false);
                 pulseNow();
               } else if (body && body.code === "basildi") pulseNow();
             }
@@ -280,9 +428,6 @@
       if (!info) return call();
       if (window.__clayOnayOnce && window.__clayOnayOnce === info.action) {
         window.__clayOnayOnce = "";
-        return call();
-      }
-      if (info.action === "issue" || info.action === "admin-issue") {
         return call();
       }
       return askConfirm(info.text).then(function (ok) {
@@ -1061,19 +1206,7 @@
     } catch (e) {}
   }
   function showFundsBanner() {
-    var main = document.querySelector(".mx-auto.min-h-screen") || document.body;
-    var el = document.querySelector(".clay-funds");
-    if (!el) {
-      el = document.createElement("p");
-      el.className = "banner-bad clay-funds";
-      el.setAttribute("role", "status");
-      var header = main.querySelector("header");
-      if (header && header.parentNode === main) main.insertBefore(el, header.nextSibling);
-      else main.insertBefore(el, main.firstChild);
-    }
-    el.hidden = false;
-    el.textContent = "Bakiye yetersiz";
-    toast("Bakiye yetersiz", false);
+    showAlert("e-bakiye", tx("Bakiye yetersiz. İşlem uygulanmadı.", "Insufficient balance. The action was not applied."));
   }
   function syncPlanFromRes(res) {
     var me = res && res.me;
@@ -1107,7 +1240,7 @@
         return;
       }
       if (code.indexOf("e-") === 0) {
-        toast((res && res.message) || "Plan alınamadı.", false);
+        showAlert(code, (res && res.message) || tx("Plan alınamadı.", "The plan was not purchased."));
         return;
       }
       planCancelled = false;
@@ -2491,28 +2624,31 @@
     var code = String(body.code || "");
     var fail = code.indexOf("e-") === 0;
     if (action === "kart-limit") {
-      toast(code === "limit" ? "Evet, limitlerin güncellendi." : (body.message || "Limit kaydedilemedi."), !fail && code === "limit");
+      if (fail) showAlert(code, body.message || tx("Limit kaydedilemedi.", "The limit was not saved."));
+      else toast(tx("Evet, limitlerin güncellendi.", "Yes, the limits were updated."), true);
       return;
     }
     if (action === "harca" || action === "spend") {
       var ok = code === "harcama" || code === "ok";
-      toast(ok ? "Evet, harcama işlendi." : (body.message || "Harcama uygulanmadı."), ok);
+      if (!ok) showAlert(code || "e-harca", body.message || tx("Harcama uygulanmadı.", "The spend was not applied."));
+      else toast(tx("Evet, harcama işlendi.", "Yes, the spend was applied."), true);
       return;
     }
     if (action === "transfer") {
       if (code === "transfer") try { sessionStorage.setItem("clay-flash", "aktar"); } catch (e) {}
       if (code === "transfer") showTransferFlash();
-      else toast(body.message || "Aktarım uygulanmadı.", false);
+      else showAlert(code, body.message || tx("Aktarım uygulanmadı.", "The transfer was not applied."));
       return;
     }
     if (action === "ana-hesap") {
       if (code === "ana-hesap") try { sessionStorage.setItem("clay-flash", "ana"); } catch (e) {}
       if (code === "ana-hesap") showTransferFlash();
-      else toast(body.message || "Ana hesaba aktarım uygulanmadı.", false);
+      else showAlert(code, body.message || tx("Ana hesaba aktarım uygulanmadı.", "The wallet transfer was not applied."));
+      return;
     }
     if (action === "plan") {
       if (code === "e-bakiye") showFundsBanner();
-      else if (fail) toast(body.message || "Plan alınamadı.", false);
+      else if (fail) showAlert(code, body.message || tx("Plan alınamadı.", "The plan was not purchased."));
       else {
         planCancelled = false;
         syncPlanFromRes(body);
@@ -2525,6 +2661,10 @@
         applyUserPlan({ plan: "", planPaid: false, planUntil: "", planStatus: "iptal", cardQuota: 1 });
         syncPlanFromRes(body);
       }
+      return;
+    }
+    if (fail && code !== "e-onay" && action !== "issue" && action !== "admin-issue" && action !== "login") {
+      showAlert(code, body.message);
     }
   }
   function wrapClayCall() {
@@ -2550,10 +2690,19 @@
     window.__clay.call.__quota = true;
   }
   function showQuotaNotice() {
-    if (document.querySelector(".clay-quota-back")) return;
+    if (document.querySelector(".clay-quota-back") || document.querySelector(".clay-ask-back.is-alert")) return;
+    hideQueryBanners();
     var back = document.createElement("div");
     back.className = "clay-quota-back";
-    back.innerHTML = '<div class="clay-quota" role="dialog" aria-modal="true"><p class="clay-quota-kicker">KART KOTASI</p><h2>Başka kart için paket gerekir.</h2><p>Paketsiz hesapta 1 kart vardır. Duo 2, Multi 8, Prime 25 kart için paket satın alın.</p><div class="clay-quota-actions"><a class="btn btn-gold" href="/panel/yukselt/">Paket Satın Al</a><button type="button" class="btn btn-ghost" data-quota-close>Kapat</button></div></div>';
+    back.innerHTML = '<div class="clay-quota" role="alertdialog" aria-modal="true"><p class="clay-quota-kicker"></p><h2></h2><p></p><div class="clay-quota-actions"><a class="btn btn-gold" href="/panel/yukselt/"></a><button type="button" class="btn btn-ghost" data-quota-close></button></div></div>';
+    back.querySelector(".clay-quota-kicker").textContent = tx("KART KOTASI", "CARD QUOTA");
+    back.querySelector("h2").textContent = tx("Başka kart için paket gerekir.", "A plan is required for another card.");
+    back.querySelector(".clay-quota > p:not(.clay-quota-kicker)").textContent = tx(
+      "Paketsiz hesapta 1 kart vardır. Duo 2, Multi 8, Prime 25 kart için paket satın alın.",
+      "Free accounts include 1 card. Duo is 2, Multi is 8, Prime is 25."
+    );
+    back.querySelector("a.btn-gold").textContent = tx("Paket satın al", "Buy a plan");
+    back.querySelector("[data-quota-close]").textContent = tx("Kapat", "Close");
     document.body.appendChild(back);
     back.addEventListener("click", function (event) {
       if (event.target === back || event.target.closest("[data-quota-close]")) back.remove();
@@ -2904,7 +3053,8 @@
     hideSecurityQuestion();
     polishOrtaklik();
     paintReceipts();
-    if (/e-paket|e-plan/.test(location.search)) showQuotaNotice();
+    if (window.__clayNoticeQuery) window.__clayNoticeQuery();
+    else if (/e-paket|e-plan/.test(location.search)) showQuotaNotice();
     showTransferFlash();
     paintCurrency();
     rbacNav();

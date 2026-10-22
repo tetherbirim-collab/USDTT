@@ -174,9 +174,10 @@
   }
 
   function noticeFromQuery() {
+    if (window.__clayNoticeQuery && window.__clayNoticeQuery()) return;
     var q = new URLSearchParams(location.search).get("bildirim") || "";
     if (!q) return;
-    if (document.querySelector(".clay-core-toast")) return;
+    if (document.querySelector(".clay-ask-back, .clay-quota-back, .clay-core-toast")) return;
     var map = {
       "e-kripicard-anahtar": t("Kart sağlayıcı anahtarı yok. Numara üretilmedi.", "Provider key missing. No card number was issued."),
       "e-kripicard-tutar": t("Karta yazılan tutar en az 10 USD olmalı.", "Amount on the card must be at least 10 USD."),
@@ -185,11 +186,15 @@
       "siparis": t("Kart siparişi alındı.", "Card order received."),
       "basildi": t("Kart basıldı.", "Card issued.")
     };
+    if (!map[q]) return;
+    if (window.__clayAlert) {
+      window.__clayAlert(q, map[q]);
+      return;
+    }
     var toast = document.createElement("p");
     toast.className = "clay-core-toast " + (q.indexOf("e-") === 0 ? "is-bad" : "is-ok");
     toast.setAttribute("role", "status");
-    toast.textContent = map[q] || "";
-    if (!toast.textContent) return;
+    toast.textContent = map[q];
     document.body.appendChild(toast);
     setTimeout(function () { toast.remove(); }, 5200);
   }
